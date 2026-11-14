@@ -65,7 +65,7 @@ jobs:
           RUN <<-'EOT' sh
           
           INSTALL=(
-           @cinnamon-desktop-environment
+           @xfce-desktop-environment
            )
           for RPM in "$INSTALL"; do
             dnf5 install -y --setopt=install_weak_deps=False "$RPM"
@@ -86,7 +86,7 @@ jobs:
            zoitechat
            )
           for RPM in "$REMOVE"; do
-            dnf5 remove -y "$RPM"
+            # dnf5 remove -y "$RPM"
           done
 
           bootc container lint
