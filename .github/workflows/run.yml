@@ -108,6 +108,8 @@ jobs:
           set -eoux pipefail
 
           WORKDIR="$(mktemp -d ./meryyn_chunkah_XXXXXX)"
+          WORKDIR="$(realpath "$WORKDIR")"
+          mkdir -p "$WORKDIR/out"
           trap 'rm -rf "$WORKDIR"' EXIT
 
           podman inspect meryyn:latest > "$WORKDIR/chunkah-config.json"
