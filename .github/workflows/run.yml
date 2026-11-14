@@ -138,7 +138,7 @@ jobs:
         run: |
          set -eoux pipefail
 
-         printenv githubToken | podman login ghcr.io \
+         printenv TOKEN | podman login ghcr.io \
           -u "${{ github.actor }}" --password-stdin
 
          HASH=""
