@@ -59,6 +59,7 @@ jobs:
       - name: Prepare Container
         run: |
           echo "DATE=$(date +%Y%m%d)" >> "$GITHUB_ENV"
+          echo "TOKEN=${{ secrets.GITHUB_TOKEN }}" >> "$GITHUB_ENV"
           
           cat <<'EOF' >> meryyn-config
           FROM quay.io/fedora/fedora-silverblue:latest
@@ -134,8 +135,6 @@ jobs:
       - name: Push To GHCR
         id: push-image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
          set -eoux pipefail
 
@@ -165,6 +164,9 @@ jobs:
           curl -fsSL --retry 3 -o cosign \
             "https://github.com/sigstore/cosign/releases/download/${VERSION}/cosign-linux-amd64"
           sudo install -m 0755 cosign /usr/local/bin/cosign
+          
+          printenv TOKEN | cosign registry login ghcr.io \
+            -u "${{ github.actor }}" --password-stdin
 
           cosign sign -y --new-bundle-format=false --use-signing-config=false \
           --key env://COSIGN \
