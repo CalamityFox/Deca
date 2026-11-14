@@ -60,7 +60,7 @@ jobs:
         run: |
           echo "DATE=$(date +%Y%m%d)" >> "$GITHUB_ENV"
           
-          cat <<'EOF' >> meryyn-software
+          cat <<'EOF' >> meryyn-config
           FROM quay.io/fedora/fedora-silverblue:latest
           RUN <<-'EOT' sh
           
