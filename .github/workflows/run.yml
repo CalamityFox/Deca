@@ -34,12 +34,12 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -eoux pipefail
+          set -eou pipefail
           cd "$GITHUB_WORKSPACE"
           git init
-          git remote add origin \
-            "https://x-access-token:${GIT_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git fetch --depth=1 origin "$GITHUB_SHA"
+          git fetch --depth=1 \
+            "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "$GITHUB_SHA"
           git checkout FETCH_HEAD
 
       - name: Maximize build space
