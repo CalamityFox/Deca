@@ -1,0 +1,62 @@
+{
+    "font_name": "Montserrat Light 11",
+    "paper_theme": "dotted",
+    "confirm_delete": true,
+    "color_scheme": "system",
+    "startup_behavior": "last_note",
+    "run_in_background": false,
+    "run_on_startup": false,
+    "start_hidden": false,
+    "show_command_toasts": false,
+    "archive_days": 0,
+    "max_carousel_size": 0,
+    "start_in_slate_mode": false,
+    "wysiwyg_scope": "global",
+    "global_toggle_shortcut": "<Super>n",
+    "shortcuts": {
+        "win.new-note": [
+            "<Ctrl>n"
+        ],
+        "win.delete-note": [
+            "<Ctrl>d",
+            "<Shift>Delete"
+        ],
+        "win.preferences": [
+            "<Ctrl>comma"
+        ],
+        "win.toggle-wysiwyg": [],
+        "win.undo-delete": [
+            "<Ctrl><Shift>t"
+        ],
+        "win.show-shortcuts": [
+            "<Ctrl>slash"
+        ],
+        "win.nav-next": [
+            "<Super>period"
+        ],
+        "win.nav-prev": [
+            "<Super>comma"
+        ],
+        "win.search": [
+            "<Ctrl>f"
+        ],
+        "win.pin-note": [
+            "<Control>p"
+        ],
+        "win.nav-first": [
+            "<Shift><Super>semicolon"
+        ],
+        "win.nav-last": [
+            "<Shift><Super>colon"
+        ],
+        "win.copy-note": [],
+        "win.bump-note": [],
+        "win.export-note": [
+            "<Ctrl><Shift>s"
+        ],
+        "win.slate-mode": [],
+        "win.quit": [
+            "<Ctrl>q"
+        ]
+    }
+}

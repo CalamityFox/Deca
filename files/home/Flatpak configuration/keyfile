@@ -1,0 +1,28 @@
+[org/gnome/Ptyxis]
+profile-uuids=['b322918b6176512c1c48e8526af3b1d4']
+default-profile-uuid='b322918b6176512c1c48e8526af3b1d4'
+window-size=(90, 30)
+restore-session=false
+restore-window-size=false
+default-columns=90
+default-rows=30
+text-blink-mode='never'
+cursor-blink-mode='off'
+use-system-font=true
+
+[org/gnome/Ptyxis/Profiles/b322918b6176512c1c48e8526af3b1d4]
+palette='Adventure Time'
+label='Meryyn'
+limit-scrollback=false
+cjk-ambiguous-width='wide'
+bold-is-bright=true
+opacity=1.0
+backspace-binding='delete-sequence'
+custom-links=[]
+
+[org/gnome/Ptyxis/Shortcuts]
+select-all='<Control>a'
+copy-clipboard='<Control>c'
+paste-clipboard='<Control>v'
+search='<Control>f'
+reset-and-clear='<Control>r'

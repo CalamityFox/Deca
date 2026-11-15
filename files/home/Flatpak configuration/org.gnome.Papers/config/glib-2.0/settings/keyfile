@@ -1,0 +1,16 @@
+[org/gnome/papers]
+night-mode=false
+
+[org/gnome/papers/default]
+annot-color='blue'
+continuous=true
+dual-page=false
+dual-page-odd-left=true
+eraser-mode-objects='true'
+highlight-color='green'
+highlight-stroke=2.0
+pen-color='blue'
+pen-stroke=1.0
+show-sidebar=true
+sizing-mode='free'
+text-color='purple'

@@ -66,6 +66,7 @@ jobs:
           RUN <<-'EOT' sh
           
           INSTALL=(
+           age
            @cinnamon-desktop-environment
            )
           for RPM in "$INSTALL"; do
