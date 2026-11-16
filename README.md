@@ -1,4 +1,6 @@
 <div align="center">
+<img src="misc/media/logo.png" width="100"/>
+<br>
 <img src="misc/media/logo.svg" width="256"/>
 
 **[rpm-ostree](https://coreos.github.io/rpm-ostree)/[bootc](https://bootc.dev) system with [cinnamon](https://github.com/linuxmint/cinnamon)**
@@ -15,20 +17,22 @@ ALPHA PROJECT, ABSOLUTELY DOES NOT WORK PLEASE DON'T USE SERIOUSLY IT WILL BREAK
 
 <br>
 
-### Installation
-
-You can rebase from an existing ostree/bootc system:
-
+### Rebasing
 ```
-curl https://github.com/CalamityFox/Meryyn/raw/refs/heads/main/meryyn-helper.sh
-chmod +x helper.sh
-meryyn-helper.sh
+# Pin current deployment
+sudo ostree admin pin 0
+
+# Rebase with rpm-ostree:
+rpm-ostree rebase ostree-unverified-registry:ghcr.io/calamityfox/meryyn
+
+# OR Rebase with bootc:
+bootc switch --enforce-container-sigpolicy ghcr.io/calamityfox/meryyn
 ```
 <br>
 
 ### Build process
 
-All of `Meryyn`'s code is kept in the [**build.yml**](.github/workflows/build.yml). It pulls [fedora-bootc:latest](https://quay.io/fedora/fedora-bootc) and modifies it according to the meryyn-config, rechunks it with [Chunkah](https://github.com/coreos/chunkah), and signs it with [Cosign](https://github.com/sigstore/cosign) before uploading it to GitHub's [Container Registry](https://github.blog/news-insights/product-news/introducing-github-container-registry).
+[**run.yml**](.github/workflows/run.yml) pulls [fedora-bootc:latest](https://quay.io/fedora/fedora-bootc) and modifies it according to the meryyn-config, imports the files from [**/system**](system), rechunks it with [Chunkah](https://github.com/coreos/chunkah), and signs it with [Cosign](https://github.com/sigstore/cosign) before uploading it to GitHub's [Container Registry](https://github.blog/news-insights/product-news/introducing-github-container-registry).
 
 <br>
 
@@ -41,16 +45,6 @@ All GUI apps are installed as Flatpaks and can be removed. Only the display mana
 Additional software can be installed with [Bazaar](https://apps.gnome.org/Bazaar). If a package isn't available as a [Flatpak](https://flathub.org), you can [layer](https://docs.fedoraproject.org/en-US/atomic-desktops/getting-started/#package-layering) RPMs or use [toolbx](https://containertoolbx.org).
 
 <br>
-
-### Installation
-
-You can rebase from a fresh [Silverblue](silverblue.fedoraproject.org) or other ostree/bootc system:
-
-```
-curl https://github.com/CalamityFox/Meryyn/raw/refs/heads/main/meryyn-helper.sh
-chmod +x helper.sh
-meryyn-helper.sh
-```
 
 
 
