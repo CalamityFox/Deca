@@ -88,7 +88,8 @@ jobs:
            zoitechat
            )
           for RPM in "$REMOVE"; do
-            dnf5 remove -y "$RPM"
+           # dnf5 remove -y "$RPM"
+           echo "Doing nothing"
           done
 
           bootc container lint
