@@ -1,3 +1,9 @@
 [org/gnome/World/Secrets]
 sort-order='a-z'
 save-automatically=true
+quick-unlock=true
+generator-length=64
+generator-words=22
+generator-separator=' '
+generator-use-numbers=true
+generator-use-symbols=true

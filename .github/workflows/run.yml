@@ -42,7 +42,7 @@ jobs:
             "$GITHUB_SHA"
           git checkout FETCH_HEAD
 
-      - name: Maximize build space
+      - name: Clear space
         run: |
           set -eoux pipefail
           df -h /
@@ -65,9 +65,25 @@ jobs:
           FROM quay.io/fedora/fedora-silverblue:latest
           RUN <<-'EOT' sh
           
+          
+          dnf5 config-manager addrepo --from-repofile=https://repo.librewolf.net/librewolf.repo
+          
           INSTALL=(
            age
            @cinnamon-desktop-environment
+           gwenview
+           kate
+           kde-partitionmanager
+           keepassxc
+           konsole
+           libreoffice-calc
+           libreoffice-impress
+           libreoffice-writer
+           librewolf
+           marknote
+           okular
+           thunderbird
+           vlc
            )
           for RPM in "$INSTALL"; do
             dnf5 install -y --setopt=install_weak_deps=False "$RPM"
