@@ -79,6 +79,7 @@ jobs:
            librewolf
            pix
            thunderbird
+           torbrowser-launcher 
            xapps
            xed
            xplayer
