@@ -70,20 +70,21 @@ jobs:
           
           RPM=(
            age
+           borgbackup
            @cinnamon-desktop-environment
-           gwenview
-           kate
-           kde-partitionmanager
            keepassxc
-           konsole
            libreoffice-calc
            libreoffice-impress
            libreoffice-writer
            librewolf
-           marknote
-           okular
+           pix
            thunderbird
-           vlc
+           xapps
+           xed
+           xplayer
+           xreader
+           xviewer
+           yt-dlp
            )
           dnf5 install -y "${RPM[@]}"
 
@@ -101,7 +102,7 @@ jobs:
            xreader
            zoitechat
            )
-          # dnf5 install -y "${REMOVERPM[@]}"
+          # 	dnf5 install -y "${REMOVERPM[@]}"
 
           bootc container lint
           EOT
