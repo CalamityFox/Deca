@@ -68,7 +68,7 @@ jobs:
           
           dnf5 config-manager addrepo --from-repofile=https://repo.librewolf.net/librewolf.repo
           
-          INSTALL=(
+          RPM=(
            age
            @cinnamon-desktop-environment
            gwenview
@@ -85,11 +85,9 @@ jobs:
            thunderbird
            vlc
            )
-          for RPM in "$INSTALL"; do
-            dnf5 install -y --setopt=install_weak_deps=False "$RPM"
-          done
+          dnf5 install -y "${RPM[@]}"
 
-          REMOVE=(
+          REMOVERPM=(
            eom
            mpv
            pidgin
@@ -103,10 +101,7 @@ jobs:
            xreader
            zoitechat
            )
-          for RPM in "$REMOVE"; do
-           # dnf5 remove -y "$RPM"
-           echo "Doing nothing"
-          done
+          # dnf5 install -y "${REMOVERPM[@]}"
 
           bootc container lint
           EOT
