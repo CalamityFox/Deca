@@ -80,15 +80,14 @@ jobs:
            marker
            pix
            thunderbird
-           torbrowser-launcher 
+           torbrowser-launcher
+           vlc
            xapps
            xed
-           xplayer
            xreader
-           xviewer
            yt-dlp
            )
-          dnf5 install -y "${RPM[@]}"
+          dnf5 install -y --skip-unavailable "${RPM[@]}"
 
           REMOVERPM=(
            eom
