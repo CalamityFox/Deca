@@ -1,7 +1,7 @@
 <div align="center">
-<img src="misc/media/logo.png" width="100"/>
+<img src="misc/media/iota-logo.png" width="100"/>
 <br>
-<img src="misc/media/logo.svg" width="256"/>
+<img src="misc/media/iota-text.png" width="256"/>
 
 **[rpm-ostree](https://coreos.github.io/rpm-ostree)/[bootc](https://bootc.dev) system with [cinnamon](https://github.com/linuxmint/cinnamon)**
 
@@ -13,7 +13,7 @@
 
 ALPHA PROJECT, ABSOLUTELY DOES NOT WORK PLEASE DON'T USE SERIOUSLY IT WILL BREAK IN 5 MINUTES PROBABLY
 
-`Meryyn` is an atomic/immutable Linux distro based on [Fedora](https://fedoraproject.org). My main priorities are to make it as stable and reliable as possible, while having more private default settings than mainline Fedora and including the [Cinnamon](https://github.com/linuxmint/cinnamon) desktop.
+`iota` is an atomic/immutable Linux distro based on [Fedora](https://fedoraproject.org). My main priorities are to make it as stable and reliable as possible, while having more private default settings than mainline Fedora and including the [Cinnamon](https://github.com/linuxmint/cinnamon) desktop.
 
 <br>
 
@@ -23,22 +23,22 @@ ALPHA PROJECT, ABSOLUTELY DOES NOT WORK PLEASE DON'T USE SERIOUSLY IT WILL BREAK
 sudo ostree admin pin 0
 
 # Rebase with rpm-ostree:
-rpm-ostree rebase ostree-unverified-registry:ghcr.io/calamityfox/meryyn
+rpm-ostree rebase ostree-unverified-registry:ghcr.io/calamityfox/iota
 
 # OR Rebase with bootc:
-bootc switch --enforce-container-sigpolicy ghcr.io/calamityfox/meryyn
+bootc switch --enforce-container-sigpolicy ghcr.io/calamityfox/iota
 ```
 <br>
 
 ### Build process
 
-[**run.yml**](.github/workflows/run.yml) pulls [fedora-bootc:latest](https://quay.io/fedora/fedora-bootc) and modifies it according to the meryyn-config, imports the files from [**/system**](system), rechunks it with [Chunkah](https://github.com/coreos/chunkah), and signs it with [Cosign](https://github.com/sigstore/cosign) before uploading it to GitHub's [Container Registry](https://github.blog/news-insights/product-news/introducing-github-container-registry).
+[**run.yml**](.github/workflows/run.yml) pulls [fedora-bootc:latest](https://quay.io/fedora/fedora-bootc) and modifies it, imports the files from [**/system**](system), rechunks it with [Chunkah](https://github.com/coreos/chunkah), and signs it with [Cosign](https://github.com/sigstore/cosign) before uploading it to GitHub's [Container Registry](https://github.blog/news-insights/product-news/introducing-github-container-registry).
 
 <br>
 
 ### Managing software
 
-I pre-install a few applications like the [LibreWolf](https://librewolf.net) browser, [Thunderbird](https://thunderbird.net) e-mail client, and several [GNOME Core/Circle](https://apps.gnome.org) apps. For a full list of all software included in `Meryyn`, check the [**build.yml**](.github/workflows/build.yml).
+I pre-install a few applications like the [LibreWolf](https://librewolf.net) browser, [Thunderbird](https://thunderbird.net) e-mail client, and several [GNOME Core/Circle](https://apps.gnome.org) apps. For a full list of all software included in `iota`, check the [**build.yml**](.github/workflows/build.yml).
 
 All GUI apps are installed as Flatpaks and can be removed. Only the display manager, window manager, and shell, are part of the base image and cannot be removed without sacrificing system stability. Some CLI tools like [age](https://github.com/FiloSottile/age) and [yt-dlp](https://github.com/yt-dlp/yt-dlp) are planned to be installed with [toolbx](https://containertoolbx.org).
 
