@@ -72,19 +72,6 @@ jobs:
            age
            borgbackup
            @cinnamon-desktop-environment
-           keepassxc
-           libreoffice-calc
-           libreoffice-impress
-           libreoffice-writer
-           librewolf
-           marker
-           pix
-           thunderbird
-           torbrowser-launcher
-           vlc
-           xapps
-           xed
-           xreader
            yt-dlp
            )
           dnf5 install -y --skip-unavailable "${RPM[@]}"
