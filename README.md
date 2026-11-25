@@ -3,7 +3,12 @@
 <br>
 <img src="misc/media/iota-text.png" width="256"/>
 
-**[rpm-ostree](https://coreos.github.io/rpm-ostree)/[bootc](https://bootc.dev) system with [cinnamon](https://github.com/linuxmint/cinnamon)**
+<br>
+<br>
+
+[<img src="misc/buttons/ostree.png" height="30"/>](https://coreos.github.io/rpm-ostree)
+[<img src="misc/buttons/bootc.png" height="30"/>](https://bootc.dev)
+[<img src="misc/buttons/cinnamon.png" height="30"/>](https://github.com/linuxmint/cinnamon)
 
 [<img src="misc/media/handcoded.png" width="100"/>](https://www.media.mit.edu/publications/your-brain-on-chatgpt)
 [<img src="misc/media/queercoded.png" width="115"/>](https://www.rainbowrailroad.org)
