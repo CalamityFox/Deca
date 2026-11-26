@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   build_push:
-    name: Build and Push Meryyn Container to GHCR
+    name: Build deca:latest and push to GHCR
     runs-on: ubuntu-latest
 
     permissions:
@@ -61,7 +61,7 @@ jobs:
           echo "DATE=$(date +%Y%m%d)" >> "$GITHUB_ENV"
           echo "TOKEN=${{ secrets.GITHUB_TOKEN }}" >> "$GITHUB_ENV"
           
-          cat <<'EOF' >> meryyn-config
+          cat <<'EOF' >> decaconf
           FROM quay.io/fedora/fedora-silverblue:latest
           RUN <<-'EOT' sh
           
@@ -101,24 +101,24 @@ jobs:
           set -eoux pipefail
           buildah bud \
           --pull=newer \
-          --tag "meryyn:latest" \
-          --tag "meryyn:$DATE" \
-          --tag "meryyn:latest-$DATE" \
-          --file meryyn-config .
+          --tag "deca:latest" \
+          --tag "deca:$DATE" \
+          --tag "deca:latest-$DATE" \
+          --file decaconf .
 
       - name: Rechunk Image w. Chunkah
         run: |
           set -eoux pipefail
 
-          WORKDIR="$(mktemp -d ./meryyn_chunkah_XXXXXX)"
+          WORKDIR="$(mktemp -d ./deca_chunkah_XXXXXX)"
           WORKDIR="$(realpath "$WORKDIR")"
           mkdir -p "$WORKDIR/out"
           trap 'rm -rf "$WORKDIR"' EXIT
 
-          podman inspect meryyn:latest > "$WORKDIR/chunkah-config.json"
+          podman inspect deca:latest > "$WORKDIR/chunkah-config.json"
 
           podman run --rm \
-            --mount=type=image,src=meryyn:latest,target=/chunkah \
+            --mount=type=image,src=deca:latest,target=/chunkah \
             -v "$WORKDIR/chunkah-config.json:/chunkah-config.json:ro,Z" \
             -v "$WORKDIR/out:/run/out:Z" \
             quay.io/coreos/chunkah:latest \
@@ -131,7 +131,7 @@ jobs:
             --config /chunkah-config.json \
             --output oci:/run/out/chunked
 
-          podman tag "$(podman pull "oci:$WORKDIR/out/chunked")" meryyn:latest
+          podman tag "$(podman pull "oci:$WORKDIR/out/chunked")" deca:latest
 
       - name: Push To GHCR
         id: push-image
@@ -145,7 +145,7 @@ jobs:
          HASH=""
          for TAG in "$DATE" latest "latest-$DATE"; do
           podman push --digestfile=/tmp/digestfile \
-            "meryyn:$TAG" "ghcr.io/calamityfox/meryyn:$TAG"
+            "deca:$TAG" "ghcr.io/calamityfox/deca:$TAG"
           HASH=$(< /tmp/digestfile)
          done
 
@@ -171,7 +171,7 @@ jobs:
 
           cosign sign -y --new-bundle-format=false --use-signing-config=false \
           --key env://COSIGN \
-          "ghcr.io/calamityfox/meryyn@${HASH}"
+          "ghcr.io/calamityfox/deca@${HASH}"
 
          # https://github.com/containers/container-libs/issues/388
          # https://github.com/coreos/rpm-ostree/issues/5509
