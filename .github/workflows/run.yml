@@ -56,17 +56,15 @@ jobs:
           sudo docker image prune --all --force || true
           df -h /
 
-      - name: Prepare Container
+      - name: Configure Deca
         run: |
           echo "DATE=$(date +%Y%m%d)" >> "$GITHUB_ENV"
           echo "TOKEN=${{ secrets.GITHUB_TOKEN }}" >> "$GITHUB_ENV"
+          echo "DECA=/usr/share/deca/" >> "$GITHUB_ENV"
           
           cat <<'EOF' >> decaconf
           FROM quay.io/fedora/fedora-silverblue:latest
           RUN <<-'EOT' sh
-          
-          
-          dnf5 config-manager addrepo --from-repofile=https://repo.librewolf.net/librewolf.repo
           
           RPM=(
            age
@@ -92,11 +90,11 @@ jobs:
            )
           # 	dnf5 install -y "${REMOVERPM[@]}"
 
-          bootc container lint
+          bootc container lint # verify image
           EOT
           EOF
 
-      - name: Build Container
+      - name: Build w. Buildah
         run: |
           set -eoux pipefail
           buildah bud \
@@ -106,7 +104,7 @@ jobs:
           --tag "deca:latest-$DATE" \
           --file decaconf .
 
-      - name: Rechunk Image w. Chunkah
+      - name: Rechunk w. Chunkah
         run: |
           set -eoux pipefail
 
@@ -125,7 +123,7 @@ jobs:
             build \
             --verbose \
             --compressed \
-            --max-layers 128 \
+            --max-layers 512 \
             --prune /sysroot/ \
             --label ostree.commit- --label ostree.final-diffid- \
             --config /chunkah-config.json \
@@ -152,7 +150,7 @@ jobs:
          echo "HASH=$HASH" >> "$GITHUB_OUTPUT"
 
 
-      - name: Sign container image
+      - name: Sign w. Cosign
         id: sign-image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
         env:
@@ -175,4 +173,3 @@ jobs:
 
          # https://github.com/containers/container-libs/issues/388
          # https://github.com/coreos/rpm-ostree/issues/5509
-         # use old bundle format, so we can use newer cosign 3.X.X instead of 2.X.X

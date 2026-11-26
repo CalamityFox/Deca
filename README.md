@@ -1,9 +1,9 @@
 <div align="center">
-<img src="misc/media/deca-logo.svg" width="256"/>
+<img src="misc/logo.svg" width="256"/>
 
 <br>
 
-<img src="misc/media/subtext.svg" width="400"/>
+<img src="misc/subtitle.svg" width="400"/>
 </div>
 
 <br>
@@ -36,6 +36,6 @@ bootc switch --enforce-container-sigpolicy ghcr.io/calamityfox/deca
 
 <div align="center">
 
-[<img src="misc/media/queer.svg" width="400"/>](https://www.media.mit.edu/publications/your-brain-on-chatgpt)
+[<img src="misc/queer.svg" width="400"/>](https://www.media.mit.edu/publications/your-brain-on-chatgpt)
 
 </div>
