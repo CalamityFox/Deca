@@ -74,7 +74,7 @@ jobs:
            xdg-desktop-portal-gtk
            yt-dlp
            )
-          dnf5 install -y --skip-unavailable --verbose "${RPM[@]}"
+          dnf5 install -y --skip-unavailable "${RPM[@]}"
           rpm -qa | grep -Ei '^gnome|^gdm' | sort
           
           mkdir -p /usr/share/deca
