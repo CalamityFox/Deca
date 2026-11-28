@@ -62,7 +62,8 @@ jobs:
           cat <<'EOF' >> decaconf
           FROM quay.io/fedora/fedora-bootc:latest
           RUN <<-'EOT' sh
-
+          set -eoux pipefail
+          
           RPM=(
            age
            borgbackup
@@ -78,7 +79,6 @@ jobs:
           EXCLUDE=(
            alacritty
            eom
-           file-roller
            firefox
            fuzzel
            gnome-software
@@ -90,6 +90,7 @@ jobs:
            simple-scan
            swaylock
            thunderbird
+           transmission
            transmission-gtk
            velocitty
            waybar
