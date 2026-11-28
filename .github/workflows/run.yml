@@ -14,9 +14,9 @@ on:
       - '**/misc/*'
   workflow_dispatch:
 
-  
+
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -27,14 +27,13 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write
 
     steps:
       - name: Checkout
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -eou pipefail
+          set -eoux pipefail
           cd "$GITHUB_WORKSPACE"
           git init
           git fetch --depth=1 \
@@ -53,45 +52,32 @@ jobs:
             /usr/local/.ghcup \
             /opt/hostedtoolcache/CodeQL \
             /usr/share/swift
-          sudo docker image prune --all --force || true
+          sudo podman system prune --all --force || true
           df -h /
 
       - name: Configure Deca
         run: |
           echo "DATE=$(date +%Y%m%d)" >> "$GITHUB_ENV"
-          echo "TOKEN=${{ secrets.GITHUB_TOKEN }}" >> "$GITHUB_ENV"
-          echo "DECA=/usr/share/deca/" >> "$GITHUB_ENV"
-          
+
           cat <<'EOF' >> decaconf
           FROM quay.io/fedora/fedora-silverblue:latest
           RUN <<-'EOT' sh
-          
+
           RPM=(
            age
            borgbackup
            @cinnamon-desktop-environment
+           niri
+           noctalia
            yt-dlp
            )
-          dnf5 install -y --skip-unavailable "${RPM[@]}"
+          dnf5 install -y --skip-unavailable --verbose "${RPM[@]}"
+          
+          mkdir -p /usr/share/deca
 
-          REMOVERPM=(
-           eom
-           mpv
-           pidgin
-           simple-scan
-           shotwell
-           thunderbird
-           transmission-gtk
-           xawtv
-           xed
-           xfburn
-           xreader
-           zoitechat
-           )
-          # 	dnf5 install -y "${REMOVERPM[@]}"
-
-          bootc container lint # verify image
+          bootc container lint
           EOT
+          COPY files/* /usr/share/deca/
           EOF
 
       - name: Build w. Buildah
@@ -129,26 +115,32 @@ jobs:
             --config /chunkah-config.json \
             --output oci:/run/out/chunked
 
-          podman tag "$(podman pull "oci:$WORKDIR/out/chunked")" deca:latest
+          CHUNKID="$(podman pull "oci:$WORKDIR/out/chunked")"
+
+          podman tag "$CHUNKID" \
+            "deca:latest" \
+            "deca:$DATE" \
+            "deca:latest-$DATE"
 
       - name: Push To GHCR
         id: push-image
         if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-         set -eoux pipefail
+          set -eoux pipefail
 
-         printenv TOKEN | podman login ghcr.io \
-          -u "${{ github.actor }}" --password-stdin
+          printenv TOKEN | podman login ghcr.io \
+            -u "${{ github.actor }}" --password-stdin
 
-         HASH=""
-         for TAG in "$DATE" latest "latest-$DATE"; do
-          podman push --digestfile=/tmp/digestfile \
-            "deca:$TAG" "ghcr.io/calamityfox/deca:$TAG"
-          HASH=$(< /tmp/digestfile)
-         done
+          HASH=""
+          for TAG in "$DATE" latest "latest-$DATE"; do
+            podman push --digestfile=/tmp/digestfile \
+              "deca:$TAG" "ghcr.io/calamityfox/deca:$TAG"
+            HASH=$(< /tmp/digestfile)
+          done
 
-         echo "HASH=$HASH" >> "$GITHUB_OUTPUT"
-
+          echo "HASH=$HASH" >> "$GITHUB_OUTPUT"
 
       - name: Sign w. Cosign
         id: sign-image
@@ -163,13 +155,13 @@ jobs:
           curl -fsSL --retry 3 -o cosign \
             "https://github.com/sigstore/cosign/releases/download/${VERSION}/cosign-linux-amd64"
           sudo install -m 0755 cosign /usr/local/bin/cosign
-          
+
           mkdir -p "$HOME/.docker"
           cp "${XDG_RUNTIME_DIR}/containers/auth.json" "$HOME/.docker/config.json"
 
           cosign sign -y --new-bundle-format=false --use-signing-config=false \
-          --key env://COSIGN \
-          "ghcr.io/calamityfox/deca@${HASH}"
+            --key env://COSIGN \
+            "ghcr.io/calamityfox/deca@${HASH}"
 
-         # https://github.com/containers/container-libs/issues/388
-         # https://github.com/coreos/rpm-ostree/issues/5509
+        # https://github.com/containers/container-libs/issues/388
+        # https://github.com/coreos/rpm-ostree/issues/5509

@@ -45,6 +45,13 @@ if [[ $answer == "deca" ]]; then
       flatpak install --noninteractive flathub "$APP"
     done
     
+    
+    # Fixing icon bug
+    sudo flatpak override --filesystem=/usr/share/icons
+    sudo flatpak override --filesystem=/usr/share/themes
+    sudo flatpak override --env=GTK_THEME=Mint-Y
+    sudo flatpak override --env=ICON_THEME=Mint-Y
+    
     mv -f $DECA/setup/bashrc ~/.bashrc
     mv -f $DECA/setup/background ~/.config/background
     mv -f $DECA/setup/sudoers /etc/sudoers
