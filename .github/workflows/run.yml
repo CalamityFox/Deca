@@ -106,7 +106,7 @@ jobs:
            EXCLUDED+=("--exclude=$pkg")
           done
 
-          dnf5 install -y --skip-unavailable --setopt=install_weak_deps=False "${EXCLUDE_ARGS[@]}" "${RPM[@]}"
+          dnf5 install -y --skip-unavailable --setopt=install_weak_deps=False "${EXCLUDED[@]}" "${RPM[@]}"
           rpm -qa
           
           mkdir -p /usr/share/deca
