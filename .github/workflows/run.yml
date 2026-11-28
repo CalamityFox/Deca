@@ -74,8 +74,40 @@ jobs:
            xdg-desktop-portal-gtk
            yt-dlp
            )
-          dnf5 install -y --skip-unavailable "${RPM[@]}"
-          rpm -qa | grep -Ei '^gnome|^gdm' | sort
+           
+          EXCLUDE=(
+           alacritty
+           eom
+           file-roller
+           firefox
+           fuzzel
+           gnome-software
+           gnome-terminal
+           mpv
+           pidgin
+           ptyxis
+           rygel
+           simple-scan
+           swaylock
+           thunderbird
+           transmission-gtk
+           velocitty
+           waybar
+           xawtv
+           xed
+           xfburn
+           xreader
+           yelp
+           zoitechat
+           )
+
+          EXCLUDED=()
+          for pkg in "${EXCLUDE[@]}"; do
+           EXCLUDED+=("--exclude=$pkg")
+          done
+
+          dnf5 install -y --skip-unavailable --setopt=install_weak_deps=False "${EXCLUDE_ARGS[@]}" "${RPM[@]}"
+          rpm -qa
           
           mkdir -p /usr/share/deca
 
