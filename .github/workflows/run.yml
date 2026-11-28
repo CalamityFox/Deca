@@ -60,18 +60,22 @@ jobs:
           echo "DATE=$(date +%Y%m%d)" >> "$GITHUB_ENV"
 
           cat <<'EOF' >> decaconf
-          FROM quay.io/fedora/fedora-silverblue:latest
+          FROM quay.io/fedora/fedora-bootc:latest
           RUN <<-'EOT' sh
 
           RPM=(
            age
            borgbackup
            @cinnamon-desktop-environment
+           lightdm
+           lightdm-gtk-greeter
            niri
            noctalia
+           xdg-desktop-portal-gtk
            yt-dlp
            )
           dnf5 install -y --skip-unavailable --verbose "${RPM[@]}"
+          rpm -qa | grep -Ei '^gnome|^gdm' | sort
           
           mkdir -p /usr/share/deca
 
